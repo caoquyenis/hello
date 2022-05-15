@@ -1,0 +1,19 @@
+try: 
+    cur.execute("SELECT name, store.store_id, store.state, item_name, customer.rewards \
+                                                FROM (((customer_transactions \
+                                                JOIN customer ON customer.customer_id=customer_transactions.customer_id)\
+                                                JOIN store ON \
+                                                customer_transactions.store_id=store.store_id) \
+                                                JOIN items_purchased ON \
+                                                customer_transactions.customer_id=items_purchased.customer_id)\
+                                                WHERE spent > 30 ;")
+    
+    
+except psycopg2.Error as e: 
+    print("Error: select *")
+    print (e)
+
+row = cur.fetchone()
+while row:
+   print(row)
+   row = cur.fetchone()
