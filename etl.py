@@ -4,23 +4,33 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
+def get_files(filepath):
+    all_files = []
+    for root, dirs, files in os.walk(filepath):
+        files = glob.glob(os.path.join(root,'*.json'))
+        for f in files :
+            all_files.append(os.path.abspath(f))
+    
+    return all_files
+
 
 def process_song_file(cur, filepath):
     # open song file
-    df = 
+    df = pd.read_json(filepath, typ='series')
 
     # insert song record
-    song_data = 
-    cur.execute(song_table_insert, song_data)
+    song_data = df[["song_id", "artist_id", "year", "duration"]].values
+    cur.execute(songs_table_insert, song_data)
     
     # insert artist record
-    artist_data = 
-    cur.execute(artist_table_insert, artist_data)
+    # Select columns for artist ID, name, location, latitude, and longitude
+    artist_data = df[["artist_id", "name", "location", "latitude", "longitude"]].values
+    cur.execute(artists_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
     # open log file
-    df = 
+    df = pd.read_json(filepath, typ='series')
 
     # filter by NextSong action
     df = 
@@ -80,7 +90,7 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+    conn = psycopg2.connect("host=localhost dbname=sparkifydb user=genie password=123456")
     cur = conn.cursor()
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
