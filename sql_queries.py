@@ -24,20 +24,21 @@ time_table_create = """CREATE table if not exists time (start_time float,hour in
 songsplays_table_insert = ("""
 """)
 
-users_table_insert = ("""
-""")
+users_table_insert = ("""INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)""")
 
 songs_table_insert = ("""INSERT INTO songs(song_id, artist_id, year, duration) VALUES (%s, %s, %s, %s)""")
 # Select columns for artist ID, name, location, latitude, and longitude
 artists_table_insert = ("""INSERT INTO artists (artist_id, artist_name, artist_location, artist_latitude, artist_longitude) VALUES (%s, %s, %s, %s, %s)""")
 
 
-time_table_insert = ("""
-""")
+time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s)""")
 
 # FIND songs
 
 songs_select = ("""
+SELECT songs_song_id, songs.artist_id, songs_duration, artists.artist_id
+FROM songs
+INNER JOIN artists ON songs.artist_id = artists.artist_id
 """)
 
 # QUERY LISTS
