@@ -21,8 +21,7 @@ time_table_create = """CREATE table if not exists time (start_time float,hour in
 
 # INSERT RECORDS
 
-songsplays_table_insert = ("""
-""")
+songsplays_table_insert = ("""INSERT INTO songsplays (start_time, user_id, level, song_id, artists_id, session_id, location, user_agent) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""")
 
 users_table_insert = ("""INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)""")
 
@@ -36,9 +35,10 @@ time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, ye
 # FIND songs
 
 songs_select = ("""
-SELECT songs_song_id, songs.artist_id, songs_duration, artists.artist_id
+SELECT songs.song_id, songs.artist_id
 FROM songs
 INNER JOIN artists ON songs.artist_id = artists.artist_id
+WHERE songs.title=%s and artists.artist_name=%s and songs.duration=%s
 """)
 
 # QUERY LISTS
