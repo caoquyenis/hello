@@ -8,29 +8,122 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 # CREATE TABLES
 
-songsplays_table_create = """CREATE TABLE IF NOT EXISTS songsplays (songsplay_id varchar,start_time float,user_id varchar,level varchar,song_id varchar,artists_id varchar,session_id varchar,location varchar,user_agent varchar);"""
+songsplays_table_create = ("""
+CREATE TABLE IF NOT EXISTS songsplays (
+    songsplay_id SERIAL PRIMARY KEY,
+    start_time TIMESTAMP NOT NULL,
+    user_id integer NOT NULL,
+    level VARCHAR,
+    song_id VARCHAR,
+    artists_id VARCHAR,
+    session_id VARCHAR,
+    location VARCHAR,
+    user_agent VARCHAR)
+""")
 
-users_table_create = """CREATE table if not exists users (user_id varchar,first_name varchar,last_name varchar,gender varchar,level varchar);"""
+users_table_create = ("""
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY NOT NULL,
+    first_name VARCHAR,
+    last_name VARCHAR,
+    gender VARCHAR,
+    level VARCHAR)
+""")
 
-songs_table_create = """CREATE table if not exists songs (song_id varchar,title varchar,artist_id varchar,year int,duration float);"""
+songs_table_create = ("""
+CREATE TABLE IF NOT EXISTS songs (
+    song_id VARCHAR PRIMARY KEY,
+    title VARCHAR,
+    artist_id VARCHAR,
+    year INTEGER,
+    duration FLOAT)
+""")
 
-artists_table_create = """CREATE table if not exists artists (artist_id varchar,artist_name varchar,artist_location varchar,artist_latitude float,artist_longitude float);
-"""
+artists_table_create = ("""
+CREATE TABLE IF NOT EXISTS artists (
+    artist_id VARCHAR PRIMARY KEY,
+    artist_name VARCHAR,
+    artist_location VARCHAR,
+    artist_latitude FLOAT,
+    artist_longitude FLOAT)
+""")
 
-time_table_create = """CREATE table if not exists time (start_time float,hour int,day int,week int,month int,year int,weekday int);"""
+time_table_create = ("""
+CREATE TABLE IF NOT EXISTS time (
+    start_time TIMESTAMP NOT NULL,
+    hour INTEGER,
+    day INTEGER,
+    week INTEGER,
+    month INTEGER,
+    year INTEGER,
+    weekday INTEGER)
+""")
 
 # INSERT RECORDS
+"""
+    This procedure processes a song file whose filepath has been provided as an arugment.
+    It extracts the song information in order to store it into the songs table.
+    Then it extracts the artist information in order to store it into the artists table.
 
-songsplays_table_insert = ("""INSERT INTO songsplays (start_time, user_id, level, song_id, artists_id, session_id, location, user_agent) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""")
+    INPUTS: 
+    * cur the cursor variable
+    * filepath the file path to the song file
+"""
 
-users_table_insert = ("""INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)""")
+songsplays_table_insert = ("""
+INSERT INTO songsplays (
+    start_time, 
+    user_id, 
+    level, 
+    song_id, 
+    artists_id, 
+    session_id, 
+    location, 
+    user_agent) 
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+""")
 
-songs_table_insert = ("""INSERT INTO songs(song_id, artist_id, year, duration) VALUES (%s, %s, %s, %s)""")
+users_table_insert = ("""
+INSERT INTO users (
+    user_id, 
+    first_name, 
+    last_name, 
+    gender, 
+    level) 
+    VALUES (%s, %s, %s, %s, %s)
+""")
+
+songs_table_insert = ("""
+INSERT INTO songs (
+    song_id, 
+    artist_id, 
+    year, 
+    duration) 
+    VALUES (%s, %s, %s, %s)
+""")
 # Select columns for artist ID, name, location, latitude, and longitude
-artists_table_insert = ("""INSERT INTO artists (artist_id, artist_name, artist_location, artist_latitude, artist_longitude) VALUES (%s, %s, %s, %s, %s)""")
+artists_table_insert = ("""
+INSERT INTO artists (
+    artist_id, 
+    artist_name, 
+    artist_location, 
+    artist_latitude, 
+    artist_longitude) 
+    VALUES (%s, %s, %s, %s, %s)
+""")
 
 
-time_table_insert = ("""INSERT INTO time (start_time, hour, day, week, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s)""")
+time_table_insert = ("""
+INSERT INTO time (
+    start_time, 
+    hour, 
+    day, 
+    week, 
+    month, 
+    year, 
+    weekday) 
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+""")
 
 # FIND songs
 
