@@ -60,15 +60,6 @@ CREATE TABLE IF NOT EXISTS time (
 """)
 
 # INSERT RECORDS
-"""
-    This procedure processes a song file whose filepath has been provided as an arugment.
-    It extracts the song information in order to store it into the songs table.
-    Then it extracts the artist information in order to store it into the artists table.
-
-    INPUTS: 
-    * cur the cursor variable
-    * filepath the file path to the song file
-"""
 
 songsplays_table_insert = ("""
 INSERT INTO songsplays (

@@ -8,11 +8,8 @@ from datetime import datetime
 def get_files(filepath):
     """
     This procedure processes a song file whose filepath has been provided as an arugment.
-    It extracts the song information in order to store it into the songs table.
-    Then it extracts the artist information in order to store it into the artists table.
 
     INPUTS: 
-    * cur the cursor variable
     * filepath the file path to the song file
     """
     all_files = []
@@ -51,8 +48,8 @@ def process_song_file(cur, filepath):
 def process_log_file(cur, filepath):
     """
     This procedure processes a song file whose filepath has been provided as an arugment.
-    It extracts the song information in order to store it into the songs table.
-    Then it extracts the artist information in order to store it into the artists table.
+    It extracts the log information in order to store it into the time table.
+    Then it extracts the time information in order to store it into the users table.
 
     INPUTS: 
     * cur the cursor variable
@@ -108,7 +105,9 @@ def process_data(cur, conn, filepath, func):
 
     INPUTS: 
     * cur the cursor variable
+    * conn the database connection
     * filepath the file path to the song file
+    * func provides function name to create record into fact and dimensional database
     """
     # get all files matching extension from directory
     all_files = []
@@ -130,13 +129,10 @@ def process_data(cur, conn, filepath, func):
 
 def main():
     """
-    This procedure processes a song file whose filepath has been provided as an arugment.
-    It extracts the song information in order to store it into the songs table.
-    Then it extracts the artist information in order to store it into the artists table.
+    This is main function. If __name__ == "__main__""
 
     INPUTS: 
-    * cur the cursor variable
-    * filepath the file path to the song file
+    * No need argument
     """
     conn = psycopg2.connect("host=localhost dbname=sparkifydb user=genie password=123456")
     cur = conn.cursor()
