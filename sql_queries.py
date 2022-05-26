@@ -10,12 +10,12 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 songsplays_table_create = ("""
 CREATE TABLE IF NOT EXISTS songsplays (
-    songsplay_id SERIAL PRIMARY KEY,
+    songsplay_id SERIAL PRIMARY KEY NOT NULL,
     start_time BIGINT NOT NULL,
-    user_id integer NOT NULL,
+    user_id INT NOT NULL,
     level VARCHAR,
     song_id VARCHAR,
-    artists_id VARCHAR,
+    artist_id VARCHAR,
     session_id VARCHAR,
     location VARCHAR,
     user_agent VARCHAR)
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS songsplays (
 
 users_table_create = ("""
 CREATE TABLE IF NOT EXISTS users (
-    user_id INTEGER PRIMARY KEY NOT NULL,
+    user_id INT PRIMARY KEY NOT NULL,
     first_name VARCHAR,
     last_name VARCHAR,
     gender VARCHAR,
@@ -32,17 +32,17 @@ CREATE TABLE IF NOT EXISTS users (
 
 songs_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-    song_id VARCHAR PRIMARY KEY,
-    title VARCHAR,
-    artist_id VARCHAR,
-    year INTEGER,
-    duration FLOAT)
+    song_id VARCHAR PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    artist_id VARCHAR NOT NULL,
+    year INT,
+    duration FLOAT NOT NULL)
 """)
 
 artists_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists (
-    artist_id VARCHAR PRIMARY KEY,
-    artist_name VARCHAR,
+    artist_id VARCHAR PRIMARY KEY NOT NULL,
+    artist_name VARCHAR NOT NULL,
     artist_location VARCHAR,
     artist_latitude FLOAT,
     artist_longitude FLOAT)
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS artists (
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-    start_time BIGINT NOT NULL,
+    start_time BIGINT PRIMARY KEY NOT NULL,
     hour INTEGER,
     day INTEGER,
     week INTEGER,
@@ -67,7 +67,7 @@ INSERT INTO songsplays (
     user_id, 
     level, 
     song_id, 
-    artists_id, 
+    artist_id, 
     session_id, 
     location, 
     user_agent) 
@@ -88,10 +88,11 @@ ON CONFLICT (user_id) DO UPDATE SET level=EXCLUDED.level
 songs_table_insert = ("""
 INSERT INTO songs (
     song_id, 
+    title,
     artist_id, 
     year, 
     duration) 
-VALUES (%s, %s, %s, %s)
+VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT (song_id) DO NOTHING
 """)
 # Select columns for artist ID, name, location, latitude, and longitude
@@ -116,7 +117,8 @@ INSERT INTO time (
     month, 
     year, 
     weekday) 
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+VALUES (%s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT (start_time) DO NOTHING
 """)
 
 # FIND songs

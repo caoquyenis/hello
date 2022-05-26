@@ -77,3 +77,4 @@ This one is a little more complicated since information from the songs table, ar
 
 # How To Run the Project
 - run create_tables.py to drop and create new database.
+- run etl.py to extract data from csv file.

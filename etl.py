@@ -35,7 +35,7 @@ def process_song_file(cur, filepath):
     df = pd.read_json(filepath, typ='series')
 
     # insert song record
-    song_data = df[["song_id", "artist_id", "year", "duration"]].values
+    song_data = df[["song_id", "title", "artist_id", "year", "duration"]].values
     cur.execute(songs_table_insert, song_data)
     
     # insert artist record
@@ -66,7 +66,7 @@ def process_log_file(cur, filepath):
     t= pd.to_datetime(t)
     
     # insert time data records
-    time_data = (df['ts'], t.dt.hour, t.dt.day, t.dt.weekofyear, t.dt.month, t.dt.year, t.dt.weekday)
+    time_data = (df['ts'], t.dt.hour, t.dt.day, t.dt.isocalendar().week, t.dt.month, t.dt.year, t.dt.weekday)
     column_labels = ('ts', 'hour', 'day', 'week', 'month', 'year', 'dayofweek')
     time_df = pd.DataFrame(dict(zip(column_labels, time_data))) 
 
@@ -139,6 +139,12 @@ def main():
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
     process_data(cur, conn, filepath='data/log_data', func=process_log_file)
+
+    # Test
+    cur.execute("select * from songsplays WHERE song_id is not null and artist_id is not null")
+    results = cur.fetchall()
+    print("Result of `select * from songsplays WHERE song_id is not null and artists_id is not null`:")
+    print(results)
 
     conn.close()
 
